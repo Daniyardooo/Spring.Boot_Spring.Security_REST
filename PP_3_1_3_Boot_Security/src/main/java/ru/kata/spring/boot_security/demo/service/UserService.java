@@ -39,11 +39,6 @@ public class UserService {
     }
 
     public void saveUser(User user) {
-        User userFromDB = userDao.findByUsername(user.getUsername());
-
-        if (userFromDB != null) {
-            throw new RuntimeException("Creating user error");
-        }
         if (user.getRoles() == null) {
             user.setRoles(Collections.singleton(new Role(1L, "ROLE_USER")));
         }
@@ -64,8 +59,6 @@ public class UserService {
     public User findByUsername(String username) {
         return userDao.findByUsername(username);
     }
-
-
 
 
 }

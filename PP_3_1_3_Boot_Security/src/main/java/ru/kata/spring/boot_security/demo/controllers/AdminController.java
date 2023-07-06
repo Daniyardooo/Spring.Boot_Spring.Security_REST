@@ -34,9 +34,9 @@ public class AdminController {
     @PatchMapping("/{id}")
     public String updateUserById(@ModelAttribute("user") @Valid User user, BindingResult bindingResult,
                                  @PathVariable("id") Long id) {
-        if (bindingResult.hasErrors())
-            return "update";
-
+        if (bindingResult.hasErrors()) {
+            return "redirect:/admin/users/{id}/edit";
+        }
         userService.updateUserById(id, user);
         return "redirect:/admin/users";
     }
@@ -58,6 +58,11 @@ public class AdminController {
                              BindingResult bindingResult) {
         if (bindingResult.hasErrors())
             return "new";
+        User userFromDB = userService.findByUsername(user.getUsername());
+        if (userFromDB != null) {
+            bindingResult.rejectValue("username", "error.username", "Имя пользователя уже существует");
+            return "new";
+        }
 
         userService.saveUser(user);
         return "redirect:/admin/users";
