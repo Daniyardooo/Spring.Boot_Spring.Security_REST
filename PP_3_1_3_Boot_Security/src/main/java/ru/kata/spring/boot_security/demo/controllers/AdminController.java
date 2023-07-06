@@ -15,6 +15,7 @@ public class AdminController {
 
     private final UserService userService;
 
+
     public AdminController(UserService userService) {
         this.userService = userService;
     }
@@ -25,7 +26,7 @@ public class AdminController {
         return "allUsers";
     }
 
-    @GetMapping("/{id}/edit")
+    @GetMapping("/{id}")
     public String getUpdateUserForm(Model model, @PathVariable("id") Long id) {
         model.addAttribute("user", userService.findUserById(id));
         return "update";
@@ -34,8 +35,11 @@ public class AdminController {
     @PatchMapping("/{id}")
     public String updateUserById(@ModelAttribute("user") @Valid User user, BindingResult bindingResult,
                                  @PathVariable("id") Long id) {
-        if (bindingResult.hasErrors()) {
-            return "redirect:/admin/users/{id}/edit";
+        if (bindingResult.hasErrors())
+            return "update";
+        if (userService.findByUsername(user.getUsername()) != null) {
+            bindingResult.rejectValue("username", "error.username", "Имя пользователя уже существует");
+            return "update";
         }
         userService.updateUserById(id, user);
         return "redirect:/admin/users";
@@ -63,7 +67,6 @@ public class AdminController {
             bindingResult.rejectValue("username", "error.username", "Имя пользователя уже существует");
             return "new";
         }
-
         userService.saveUser(user);
         return "redirect:/admin/users";
     }

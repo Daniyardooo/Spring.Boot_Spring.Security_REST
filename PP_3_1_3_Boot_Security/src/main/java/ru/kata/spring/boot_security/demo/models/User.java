@@ -98,6 +98,7 @@ public class User implements UserDetails {
         return roles;
     }
 
+
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
@@ -114,4 +115,6 @@ public class User implements UserDetails {
     public int hashCode() {
         return Objects.hash(id, username, password, email, roles);
     }
+
+
 }

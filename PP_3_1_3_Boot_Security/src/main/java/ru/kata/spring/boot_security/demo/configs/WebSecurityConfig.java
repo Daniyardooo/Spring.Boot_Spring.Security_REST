@@ -10,7 +10,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import ru.kata.spring.boot_security.demo.dao.UserDao;
 import ru.kata.spring.boot_security.demo.service.CustomUserDetailsService;
 
 
@@ -18,14 +17,18 @@ import ru.kata.spring.boot_security.demo.service.CustomUserDetailsService;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final SuccessUserHandler successUserHandler;
-    @Autowired
-    UserDao userRepository;
-    @Autowired
-    CustomUserDetailsService customUserDetailsService;
+    private SuccessUserHandler successUserHandler;
 
-    public WebSecurityConfig(SuccessUserHandler successUserHandler) {
+    private CustomUserDetailsService customUserDetailsService;
+
+    @Autowired
+    private void setSuccessUserHandler(SuccessUserHandler successUserHandler) {
         this.successUserHandler = successUserHandler;
+    }
+
+    @Autowired
+    private void setCustomUserDetailsService(CustomUserDetailsService customUserDetailsService) {
+        this.customUserDetailsService = customUserDetailsService;
     }
 
     @Bean

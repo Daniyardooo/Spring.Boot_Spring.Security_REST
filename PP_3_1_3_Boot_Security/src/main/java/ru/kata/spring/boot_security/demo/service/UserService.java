@@ -28,12 +28,13 @@ public class UserService {
         return userFromDb.orElse(new User());
     }
 
+
     public void updateUserById(Long id, User updatedUser) {
         Optional<User> existingUser = userDao.findById(id);
         if (existingUser.isPresent()) {
             existingUser.get().setUsername(updatedUser.getUsername());
             existingUser.get().setPassword(bCryptPasswordEncoder.encode(updatedUser.getPassword()));
-            existingUser.get().setRoles(updatedUser.getRoles());
+            existingUser.get().setEmail(updatedUser.getEmail());
             userDao.save(existingUser.get());
         } else throw new RuntimeException("Update user error");
     }
