@@ -21,8 +21,9 @@ public class AdminController {
     }
 
     @GetMapping("")
-    public String getUsers(Model model) {
+    public String getUsers(Model model, @ModelAttribute("user") User user) {
         model.addAttribute("users", userService.getAllUsers());
+
         return "allUsers";
     }
 
@@ -30,6 +31,11 @@ public class AdminController {
     public String getUpdateUserForm(Model model, @PathVariable("id") Long id) {
         model.addAttribute("user", userService.findUserById(id));
         return "update";
+    }
+
+    @GetMapping("/new")
+    public String getNewUserForm(@ModelAttribute("user") User user) {
+        return "new";
     }
 
     @PatchMapping("/{id}")
@@ -52,10 +58,6 @@ public class AdminController {
 
     }
 
-    @GetMapping("/new")
-    public String getNewUserForm(@ModelAttribute("user") User user) {
-        return "new";
-    }
 
     @PostMapping()
     public String createUser(@ModelAttribute("user") @Valid User user,
