@@ -10,7 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import ru.kata.spring.boot_security.demo.service.CustomUserDetailsService;
+import ru.kata.spring.boot_security.demo.service.CustomUserDetails;
 
 
 @Configuration
@@ -18,18 +18,14 @@ import ru.kata.spring.boot_security.demo.service.CustomUserDetailsService;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private SuccessUserHandler successUserHandler;
-
-    private CustomUserDetailsService customUserDetailsService;
+    @Autowired
+    private CustomUserDetails customUserDetailsServiceImpl;
 
     @Autowired
     private void setSuccessUserHandler(SuccessUserHandler successUserHandler) {
         this.successUserHandler = successUserHandler;
     }
 
-    @Autowired
-    private void setCustomUserDetailsService(CustomUserDetailsService customUserDetailsService) {
-        this.customUserDetailsService = customUserDetailsService;
-    }
 
     @Bean
     public PasswordEncoder PasswordEncoder() {
@@ -54,15 +50,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(customUserDetailsService).passwordEncoder(PasswordEncoder());
+        auth.userDetailsService(customUserDetailsServiceImpl).passwordEncoder(PasswordEncoder());
     }
 
     @Bean
     public DaoAuthenticationProvider daoAuthenticationProvider() {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
         authenticationProvider.setPasswordEncoder(PasswordEncoder());
-        authenticationProvider.setUserDetailsService(customUserDetailsService);
+        authenticationProvider.setUserDetailsService(customUserDetailsServiceImpl);
         return authenticationProvider;
     }
+
 
 }

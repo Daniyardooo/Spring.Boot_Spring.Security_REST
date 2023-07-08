@@ -40,6 +40,19 @@
                 <div class="error-message" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email Error</div>
             </td>
         </tr>
+        <tr>
+            <td>
+                <label for="role">Enter role:</label>
+            </td>
+            <td>
+                <select th:field="*{roles}" id="role">
+                    <option value="1">Пользователь</option>
+                    <option value="2">Администратор</option>
+                </select>
+                <div class="error-message" th:if="${#fields.hasErrors('roles')}" th:errors="*{roles}">Ошибка выбора роли</div>
+            </td>
+        </tr>
+
     </table>
 
     <input type="submit" value="Create!"/>

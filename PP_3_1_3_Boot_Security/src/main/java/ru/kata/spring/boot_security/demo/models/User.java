@@ -21,11 +21,16 @@ public class User implements UserDetails {
     private String username;
     @Size(min = 2, message = "Не меньше 5 знаков")
     private String password;
-    @NotEmpty(message = "Email should not be empty")
+    @NotEmpty(message = "Поле не может быть пустым")
     @Email
     private String email;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
+//    @LazyCollection(LazyCollectionOption.EXTRA)
+//    @Fetch(FetchMode.JOIN)
+    @JoinTable(name = "users_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 
     public User() {

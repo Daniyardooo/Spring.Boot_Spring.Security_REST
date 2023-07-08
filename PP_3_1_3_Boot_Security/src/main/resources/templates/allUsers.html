@@ -22,7 +22,7 @@
     <tr th:each="user : ${users}">
         <td th:text="${user.getId()}"></td>
         <td>
-            <p th:text="${user.username}"></p>
+            <p th:text="${user.getUsername()}"></p>
             <a th:href="@{/admin/users/{id}(id=${user.getId()})}">Edit</a>
             <form th:method="DELETE" th:action="@{/admin/users/{id}(id=${user.getId()})}">
                 <input type="submit" value="Delete"/>
