@@ -9,8 +9,6 @@ import java.util.Collection;
 
 public interface CustomUserDetails extends UserDetailsService {
 
-    void setUserService(UserServiceImpl userServiceImpl);
-
     UserDetails loadUserByUsername(String username);
 
     Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles);

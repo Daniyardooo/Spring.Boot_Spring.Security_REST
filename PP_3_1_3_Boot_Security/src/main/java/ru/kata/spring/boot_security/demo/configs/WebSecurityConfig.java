@@ -18,7 +18,7 @@ import ru.kata.spring.boot_security.demo.service.CustomUserDetails;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private SuccessUserHandler successUserHandler;
-    @Autowired
+
     private CustomUserDetails customUserDetailsServiceImpl;
 
     @Autowired
@@ -26,6 +26,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         this.successUserHandler = successUserHandler;
     }
 
+    @Autowired
+    public void setCustomUserDetailsServiceImpl(CustomUserDetails customUserDetailsServiceImpl) {
+        this.customUserDetailsServiceImpl = customUserDetailsServiceImpl;
+    }
 
     @Bean
     public PasswordEncoder PasswordEncoder() {
