@@ -2,22 +2,22 @@ package ru.kata.spring.boot_security.demo.appInit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.dao.RoleDao;
 import ru.kata.spring.boot_security.demo.dao.UserDao;
 import ru.kata.spring.boot_security.demo.models.Role;
 import ru.kata.spring.boot_security.demo.models.User;
 
 import javax.annotation.PostConstruct;
-import javax.transaction.Transactional;
 import java.util.HashSet;
 import java.util.Set;
 
 @Component
 public class Init {
 
-    UserDao userDao;
+    private UserDao userDao;
 
-    RoleDao roleDao;
+    private RoleDao roleDao;
 
     @Autowired
     public void setUserDao(UserDao userDao) {

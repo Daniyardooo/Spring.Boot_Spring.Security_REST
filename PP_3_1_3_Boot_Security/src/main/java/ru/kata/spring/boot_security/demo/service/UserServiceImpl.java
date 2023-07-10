@@ -3,11 +3,11 @@ package ru.kata.spring.boot_security.demo.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.dao.UserDao;
 import ru.kata.spring.boot_security.demo.models.Role;
 import ru.kata.spring.boot_security.demo.models.User;
 
-import javax.transaction.Transactional;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -23,7 +23,7 @@ public class UserServiceImpl implements UserService {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public User findUserById(Long userId) {
         Optional<User> userFromDb = userDao.findById(userId);
         return userFromDb.orElse(new User());
@@ -50,7 +50,7 @@ public class UserServiceImpl implements UserService {
         userDao.save(user);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public List<User> getAllUsers() {
         return userDao.findAll();
     }
@@ -62,7 +62,7 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public User findByUsername(String username) {
         return userDao.findByUsername(username);
     }
